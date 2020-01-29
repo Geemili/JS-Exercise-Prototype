@@ -39,9 +39,22 @@ Airplane.prototype.land = function () {
         + It should return a string with `name` and `age`. Example: "Mary, 50"
 */
 
-function Person() {
-
+function Person(name, age) {
+    this.name = name;
+    this.age = age;
+    this.stomach = [];
 }
+Person.prototype.eat = function(edible) {
+    if (this.stomach.length < 10) {
+        this.stomach.push(edible);
+    }
+};
+Person.prototype.poop = function() {
+    this.stomach = [];
+};
+Person.prototype.toString = function() {
+    return `${this.name}, ${this.age}`;
+};
 
 /*
   TASK 2
@@ -57,9 +70,27 @@ function Person() {
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {
-
+function Car(model, milesPerGallon) {
+    this.model = model;
+    this.milesPerGallon = milesPerGallon;
+    this.tank = 0;
+    this.odometer = 0;
 }
+Car.prototype.fill = function(gallons) {
+    this.tank += gallons;
+};
+Car.prototype.drive = function(distance) {
+    let usedFuel = distance / this.milesPerGallon;
+    if (this.tank > usedFuel) {
+        this.odometer += distance;
+        this.tank -= usedFuel;
+    } else {
+        let distBeforeEmpty = this.tank * this.milesPerGallon;
+        this.odometer += distBeforeEmpty;
+        this.tank = 0;
+        return `I ran out of fuel at ${this.odometer} miles!`;
+    }
+};
 
 /*
   TASK 3
@@ -68,18 +99,33 @@ function Car() {
     - Besides the methods on Person.prototype, babies have the ability to `.play()`:
         + Should return a string "Playing with x", x being the favorite toy.
 */
-function Baby() {
-
+function Baby(name, age, favoriteToy) {
+    Person.call(this, name, age);
+    this.favoriteToy = favoriteToy;
 }
+Baby.prototype = Object.create(Person.prototype);
+Baby.prototype.play = function() {
+    return `Playing with ${this.favoriteToy}`;
+};
 
 /* 
   TASK 4
 
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+
+  1. If `this` is not set to anything, it will default to the Window object,
+     unless the interpreter is in `'use strict'` mode.
+
+  2. If you call a method on an object by using `object.method()`, `this` will
+     be set to `object`.
+
+  3. If you call a method with `new`, the `this` refers to a new object that is
+     implicitly returned at the end function.
+
+  4. If you use a special function (like `.call` or `.apply`) then `this` is
+     set to the first argument that is passed to it. This is especially
+     important when you want to call some other constructor function and apply
+     it to the current object.
 */
 
 

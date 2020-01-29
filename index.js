@@ -112,10 +112,20 @@ Baby.prototype.play = function() {
   TASK 4
 
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+
+  1. If `this` is not set to anything, it will default to the Window object,
+     unless the interpreter is in `'use strict'` mode.
+
+  2. If you call a method on an object by using `object.method()`, `this` will
+     be set to `object`.
+
+  3. If you call a method with `new`, the `this` refers to a new object that is
+     implicitly returned at the end function.
+
+  4. If you use a special function (like `.call` or `.apply`) then `this` is
+     set to the first argument that is passed to it. This is especially
+     important when you want to call some other constructor function and apply
+     it to the current object.
 */
 
 
